@@ -1,66 +1,52 @@
 package HTML::AutoTag;
-
 use 5.006;
+use Carp;
 use strict;
 use warnings FATAL => 'all';
-
-=head1 NAME
-
-HTML::AutoTag - The great new HTML::AutoTag!
-
-=head1 VERSION
-
-Version 0.01
-
-=cut
 
 our $VERSION = '0.01';
 
 
+1;
+
+__END__
+=head1 NAME
+
+HTML::AutoTag - Turn data into HTML.
+
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+  use HTML::AutoTag;
 
-Perhaps a little code snippet.
+  print HTML::AutoTag->new( site => 'facebook.com' );
+    # renders a Facebook site
 
-    use HTML::AutoTag;
+  print HTML::AutoTag->new( site => 'google.com' );
+    # renders a Google search engine
 
-    my $foo = HTML::AutoTag->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
-
-=head2 function1
-
-=cut
-
-sub function1 {
-}
-
-=head2 function2
-
-=cut
-
-sub function2 {
-}
-
-=head1 AUTHOR
-
-Jeff Anderson, C<< <jeffa at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-html-autotag at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=HTML-AutoTag>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+  print HTML::AutoTag->new( site => 'gold' );
+    # makes gold bars that pop out of your screen
 
 
+=head1 DESCRIPTION
 
+This module will make some HTML, yo.
+
+=head1 BUGS AND LIMITATIONS
+
+Please report any bugs or feature requests to either
+
+=over 4
+
+=item * Email: C<bug-html-autotag at rt.cpan.org>
+
+=item * Web: L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=HTML-AutoTag>
+
+=back
+
+=head1 GITHUB
+
+The Github project is L<https://github.com/jeffa/HTML-AutoTag>
 
 =head1 SUPPORT
 
@@ -68,32 +54,31 @@ You can find documentation for this module with the perldoc command.
 
     perldoc HTML::AutoTag
 
-
 You can also look for information at:
 
 =over 4
 
-=item * RT: CPAN's request tracker (report bugs here)
+=item * RT: CPAN's request tracker (report bugs here) L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=HTML-AutoTag>
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=HTML-AutoTag>
+=item * AnnoCPAN: Annotated CPAN documentation L<http://annocpan.org/dist/HTML-AutoTag>
 
-=item * AnnoCPAN: Annotated CPAN documentation
+=item * CPAN Ratings L<http://cpanratings.perl.org/d/HTML-AutoTag>
 
-L<http://annocpan.org/dist/HTML-AutoTag>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/HTML-AutoTag>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/HTML-AutoTag/>
+=item * Search CPAN L<http://search.cpan.org/dist/HTML-AutoTag/>
 
 =back
 
+=head1 SEE ALSO
 
-=head1 ACKNOWLEDGEMENTS
+=over 4
 
+=item * L<http://www.w3.org/TR/html5/syntax.html>
+
+=back
+
+=head1 AUTHOR
+
+Jeff Anderson, C<< <jeffa at cpan.org> >>
 
 =head1 LICENSE AND COPYRIGHT
 
@@ -134,8 +119,4 @@ YOUR LOCAL LAW. UNLESS REQUIRED BY LAW, NO COPYRIGHT HOLDER OR
 CONTRIBUTOR WILL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, OR
 CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF THE USE OF THE PACKAGE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-
 =cut
-
-1; # End of HTML::AutoTag
