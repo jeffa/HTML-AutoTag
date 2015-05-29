@@ -7,12 +7,16 @@ Synopsis
 ```perl
 use HTML::AutoTag;
 
-my $auto = HTML::AutoTag->new( encodes => '<>', indent => '  ' );
-my %attr = ( ol => { class => 'my-data' }, li => {} );
+my %attr = ( class => [qw(odd even)] );
 my @data = qw( one two three four five six seven eight );
 
-my $html = $auto->tag(
-    ol => $attr{ol}, map [ li => $attr{li}, $_ ], @data
+my $auto = HTML::AutoTag->new( indent => '    ' );
+
+print $auto->tag(
+    tag   => 'ol', 
+    cdata => [
+        map { tag => 'li', attr => \%attr, cdata => $_ }, @data
+    ]
 );
 ```
 

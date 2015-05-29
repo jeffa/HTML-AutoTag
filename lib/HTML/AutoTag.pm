@@ -25,13 +25,30 @@ sub tag {
 
     return sprintf '<%s%s />', $args{tag}, scalar %$attr unless defined $args{cdata};
 
-    my $str = '';
+    my $cdata = '';
     if (ref($args{cdata}) eq 'ARRAY') {
-       $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_ ) for @{ $args{cdata} };
+
+        if (ref($args{cdata}[0]) eq 'HASH') {
+            print Dumper $args{cdata};
+            $cdata .= $self->tag( %$_ ) for @{ $args{cdata} };
+
+        } else {
+            my $str = '';
+            $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_) for @{ $args{cdata} };
+            return $str;
+        }
+
+    } elsif (ref($args{cdata}) eq 'HASH') {
+
+        $cdata = $self->tag( %{ $args{cdata} } );
+
     } else {
-        return sprintf '<%s%s>%s</%s>', $args{tag}, scalar %$attr, $args{cdata}, $args{tag};
+
+        $cdata = $args{cdata};
     }
-    return $str;
+    
+
+    return sprintf '<%s%s>%s</%s>', $args{tag}, scalar %$attr, $cdata, $args{tag};
 }
 
 1;
@@ -41,16 +58,22 @@ __END__
 
 HTML::AutoTag - Turn data into HTML.
 
+THIS IS AN ALPHA RELEASE - the interface could change at a ++ of $VERSION.
+
 =head1 SYNOPSIS
 
   use HTML::AutoTag;
 
-  my $auto = HTML::AutoTag->new( encodes => '<>', indent => '  ' );
-  my %attr = ( ol => { class => 'my-data' }, li => {} );
+  my %attr = ( class => [qw(odd even)] );
   my @data = qw( one two three four five six seven eight );
 
-  my $html = $auto->tag(
-      ol => $attr{ol}, map [ li => $attr{li}, $_ ], @data
+  my $auto = HTML::AutoTag->new( indent => '    ' );
+
+  print $auto->tag(
+      tag   => 'ol', 
+      cdata => [
+          map { tag => 'li', attr => \%attr, cdata => $_ }, @data
+      ]
   );
 
 =head1 DESCRIPTION
@@ -63,13 +86,119 @@ This module will make some HTML, yo.
 
 =item * C<new()>
 
-=item * C<tag()>
+Accepts two arguments:
+
+=over 8
+
+=item * C<encodes>
+
+Encode HTML entities. Defaults to empty string which produces no encoding.
+Set value to those characters you wish to have encoded. Set value to undef
+to encode all unsafe characters.
+
+=item * C<indent>
+
+Pretty print results. Defaults to undef which produces no indentation.
+Set value to any number of spaces or tabs and newlines will also be appended.
 
 =back
 
+=item * C<tag()>
+
+Accepts three arguments:
+
+=over 8
+
+=item * C<tag>
+
+The name of the tag. String.
+
+=item * C<attr>
+
+The attributes and values to write out for the tag. Hash reference.
+
+=item * C<cdata>
+
+The value inbetween the tag. Types allowed are:
+
+=over 12
+
+=item * scalar - the string to be wrapped in tags
+
+=item * hash ref - another tag with its own cdata and attributes
+
+=item * AoH - multiple tags as hash references.
+
+=back
+
+=back
+
+=back
+
+=head1 REQUIRES
+
+=over 4
+
+=item * C<Tie::Hash::Attribute>
+
+Used to create rotating attributes.
+
+=back
+
+=head1 EXAMPLE
+
+The following should render a table with rotating attributes. Notice the
+need to supply the same reference for each <tr> attribute:
+
+  my %tr_attr = ( class => [qw(odd even)] );
+  
+  print $auto->tag(
+      tag => 'table',
+      attr => { class => 'spreadsheet' },
+      cdata => [
+          {
+              tag => 'tr',
+              attr => \%tr_attr,
+              cdata => {
+                  tag => 'td',
+                  attr => { style => { color => [qw(red green)] } },
+                  cdata => [qw(one two three four five six)],
+              },
+          },
+          {
+              tag => 'tr',
+              attr => \%tr_attr,
+              cdata => {
+                  tag => 'td',
+                  attr => { style => { color => [qw(red green)] } },
+                  cdata => [qw(seven eight nine ten eleven twelve)],
+              },
+          },
+          {
+              tag => 'tr',
+              attr => \%tr_attr,
+              cdata => {
+                  tag => 'td',
+                  attr => { style => { color => [qw(red green)] } },
+                  cdata => [qw(thirteen fourteen fifteen sixteen seventeen eighteen)],
+              },
+          },
+      ]
+  );
+
+=head1 INSPIRATION
+
+Lincoln Stein's L<CGI> has long been able to easily produce completely
+arbitrary HTML text by turning any non-defined method call into a wrapper.
+
+Gisle Aas's L<HTML::Tree> has a wonderful method (HTML::Element::new_from_lol)
+which this module draws most of its interface inspiration from. I would like
+to continue tweaking this code, while the named parameters make for a clean
+implementation they do get in the way of client.
+
 =head1 BUGS AND LIMITATIONS
 
-Please report any bugs or feature requests to either
+Please report any bugs or feature requests to either:
 
 =over 4
 
