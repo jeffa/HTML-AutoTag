@@ -4,13 +4,52 @@ use strict;
 use warnings FATAL => 'all';
 our $VERSION = '0.01';
 
-#use Tie::Hash::Attribute;
+use Tie::Hash::Attribute;
+use Data::Dumper;
 
-sub new { bless {}, shift }
+sub new {
+    my $self = shift;
+    bless {@_}, $self;
+}
 
 sub tag {
     my $self = shift;
+    my ($tag, $attr, @cdr) = _args( @_ );
+
+    unless (ref($attr)) {
+        push @cdr, $attr if defined($attr);
+        $attr = {};
+    }
+
+    if (ref($attr) eq 'ARRAY') {
+        _build_tags( @$attr );
+    } else {
+        tie my %attr, 'Tie::Hash::Attribute';
+        %attr = %$attr;
+        _build_tags( $tag, \%attr, @cdr );
+    }
 }
+
+sub _build_tags {
+    my ($tag, $attr, @cdr) = _args( @_ );
+
+    my $str = sprintf '<%s%s', $tag, scalar %$attr;
+    if (@cdr) {
+        my $cdata = '';
+        if (@cdr > 1) {
+            my $car = shift @cdr;
+            $cdata .= _build_tags( $car, $attr, @cdr );
+        } else {
+            $cdata = $cdr[0];
+        }
+        $str .= sprintf '>%s</%s>', $cdata, $tag;
+    } else {
+        $str .= ' />';
+    }
+    return $str;
+}
+
+sub _args { ref($_[0]) eq 'ARRAY' ?  @{ $_[0] } : @_ }
 
 1;
 
