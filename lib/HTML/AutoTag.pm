@@ -14,42 +14,25 @@ sub new {
 
 sub tag {
     my $self = shift;
-    my ($tag, $attr, @cdr) = _args( @_ );
+    my %args = @_;
+    my $attr = $args{attr};
 
-    unless (ref($attr)) {
-        push @cdr, $attr if defined($attr);
-        $attr = {};
-    }
-
-    if (ref($attr) eq 'ARRAY') {
-        _build_tags( @$attr );
-    } else {
+    unless ( grep /^-/, keys %$attr ) {
         tie my %attr, 'Tie::Hash::Attribute';
         %attr = %$attr;
-        _build_tags( $tag, \%attr, @cdr );
+        $attr = \%attr;
     }
-}
 
-sub _build_tags {
-    my ($tag, $attr, @cdr) = _args( @_ );
+    return sprintf '<%s%s />', $args{tag}, scalar %$attr unless defined $args{cdata};
 
-    my $str = sprintf '<%s%s', $tag, scalar %$attr;
-    if (@cdr) {
-        my $cdata = '';
-        if (@cdr > 1) {
-            my $car = shift @cdr;
-            $cdata .= _build_tags( $car, $attr, @cdr );
-        } else {
-            $cdata = $cdr[0];
-        }
-        $str .= sprintf '>%s</%s>', $cdata, $tag;
+    my $str = '';
+    if (ref($args{cdata}) eq 'ARRAY') {
+       $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_ ) for @{ $args{cdata} };
     } else {
-        $str .= ' />';
+        return sprintf '<%s%s>%s</%s>', $args{tag}, scalar %$attr, $args{cdata}, $args{tag};
     }
     return $str;
 }
-
-sub _args { ref($_[0]) eq 'ARRAY' ?  @{ $_[0] } : @_ }
 
 1;
 
