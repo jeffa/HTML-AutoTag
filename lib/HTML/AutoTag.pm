@@ -27,7 +27,6 @@ HTML::AutoTag - Turn data into HTML.
   print HTML::AutoTag->new( site => 'gold' );
     # makes gold bars that pop out of your screen
 
-
 =head1 DESCRIPTION
 
 This module will make some HTML, yo.

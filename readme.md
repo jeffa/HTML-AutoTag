@@ -7,6 +7,15 @@ Synopsis
 ```perl
 use HTML::AutoTag;
 
+print HTML::AutoTag->new( site => 'facebook.com' );
+    # renders a Facebook site
+
+print HTML::AutoTag->new( site => 'google.com' );
+    # renders a Google search engine
+
+print HTML::AutoTag->new( site => 'gold' );
+    # makes gold bars that pop out of your screen
+
 ```
 
 Installation
