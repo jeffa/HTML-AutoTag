@@ -9,7 +9,11 @@ use Data::Dumper;
 
 sub new {
     my $self = shift;
-    bless {@_}, $self;
+    my $class = {@_};
+    $class->{indent} = ''       unless $class->{indent};
+    $class->{encodes} = undef   unless exists $class->{encodes};
+    $class->{curr_level} = 0;
+    bless $class, $self;
 }
 
 sub tag {
@@ -23,13 +27,15 @@ sub tag {
         $attr = \%attr;
     }
 
-    return sprintf '<%s%s />', $args{tag}, scalar %$attr unless defined $args{cdata};
+    unless (defined $args{cdata}) {
+        return sprintf '%s<%s%s />%s', $self->_indent, $args{tag}, scalar( %$attr ), $self->_newline;
+    }
 
     my $cdata = '';
     if (ref($args{cdata}) eq 'ARRAY') {
 
         if (ref($args{cdata}[0]) eq 'HASH') {
-            print Dumper $args{cdata};
+
             $cdata .= $self->tag( %$_ ) for @{ $args{cdata} };
 
         } else {
@@ -43,13 +49,26 @@ sub tag {
         $cdata = $self->tag( %{ $args{cdata} } );
 
     } else {
-
         $cdata = $args{cdata};
     }
     
-
-    return sprintf '<%s%s>%s</%s>', $args{tag}, scalar %$attr, $cdata, $args{tag};
+    return sprintf '%s<%s%s>%s</%s>%s', $self->_indent, $args{tag}, scalar %$attr, $cdata, $args{tag}, $self->_newline;
 }
+
+sub _indent {
+    my $self = shift;
+    return $self->{indent} 
+        ? ($self->{indent} x $self->{curr_level})
+        : '';
+}
+
+sub _newline {
+    my $self = shift;
+    return $self->{indent} 
+        ? "\n" 
+        : '';
+}
+
 
 1;
 
