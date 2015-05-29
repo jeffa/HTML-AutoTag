@@ -7,15 +7,13 @@ Synopsis
 ```perl
 use HTML::AutoTag;
 
-print HTML::AutoTag->new( site => 'facebook.com' );
-    # renders a Facebook site
+my $auto = HTML::AutoTag->new( encodes => '<>', indent => '  ' );
+my %attr = ( ol => { class => 'my-data' }, li => {} );
+my @data = qw( one two three four five six seven eight );
 
-print HTML::AutoTag->new( site => 'google.com' );
-    # renders a Google search engine
-
-print HTML::AutoTag->new( site => 'gold' );
-    # makes gold bars that pop out of your screen
-
+my $html = $auto->tag(
+    ol => $attr{ol}, map [ li => $attr{li}, $_ ], @data
+);
 ```
 
 Installation

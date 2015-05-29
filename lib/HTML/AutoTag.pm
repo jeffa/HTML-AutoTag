@@ -1,11 +1,16 @@
 package HTML::AutoTag;
 use 5.006;
-use Carp;
 use strict;
 use warnings FATAL => 'all';
-
 our $VERSION = '0.01';
 
+#use Tie::Hash::Attribute;
+
+sub new { bless {}, shift }
+
+sub tag {
+    my $self = shift;
+}
 
 1;
 
@@ -18,18 +23,27 @@ HTML::AutoTag - Turn data into HTML.
 
   use HTML::AutoTag;
 
-  print HTML::AutoTag->new( site => 'facebook.com' );
-    # renders a Facebook site
+  my $auto = HTML::AutoTag->new( encodes => '<>', indent => '  ' );
+  my %attr = ( ol => { class => 'my-data' }, li => {} );
+  my @data = qw( one two three four five six seven eight );
 
-  print HTML::AutoTag->new( site => 'google.com' );
-    # renders a Google search engine
-
-  print HTML::AutoTag->new( site => 'gold' );
-    # makes gold bars that pop out of your screen
+  my $html = $auto->tag(
+      ol => $attr{ol}, map [ li => $attr{li}, $_ ], @data
+  );
 
 =head1 DESCRIPTION
 
 This module will make some HTML, yo.
+
+=head1 METHODS
+
+=over 4
+
+=item * C<new()>
+
+=item * C<tag()>
+
+=back
 
 =head1 BUGS AND LIMITATIONS
 
