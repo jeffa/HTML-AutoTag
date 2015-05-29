@@ -39,20 +39,23 @@ sub tag {
             $cdata .= $self->tag( %$_ ) for @{ $args{cdata} };
 
         } else {
-            my $str = '';
-            $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_) for @{ $args{cdata} };
+            my $str = $self->{curr_level} ? $self->_newline : '';
+            for (@{ $args{cdata} }) {
+                $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_)
+            }
             return $str;
         }
 
     } elsif (ref($args{cdata}) eq 'HASH') {
-
+        $self->{curr_level}++;
         $cdata = $self->tag( %{ $args{cdata} } );
+        $self->{curr_level}--
 
     } else {
         $cdata = $args{cdata};
     }
     
-    return sprintf '%s<%s%s>%s</%s>%s', $self->_indent, $args{tag}, scalar %$attr, $cdata, $args{tag}, $self->_newline;
+    return sprintf '%s<%s%s>%s</%s>%s', $self->_indent, $args{tag}, scalar( %$attr ), $cdata, $args{tag}, $self->_newline;
 }
 
 sub _indent {

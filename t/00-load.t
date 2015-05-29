@@ -2,7 +2,7 @@
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
-use Test::More tests => 20;
+use Test::More tests => 21;
 
 use_ok 'HTML::AutoTag';
 
@@ -43,27 +43,36 @@ is $auto->tag( tag => 'foo', attr => { col => [1..3] }, cdata => [qw(one two thr
     '<foo col="1">one</foo><foo col="2">two</foo><foo col="3">three</foo><foo col="1">four</foo>',
     "tag with multiple children and rotating attributes";
 
-is $auto->tag( tag => 'bar', attr => {qw(baz qux)}, cdata => { tag => 'foo', attr => { col => [1..3] }, cdata => [qw(one two three four)] } ),
-    '<bar baz="qux"><foo col="1">one</foo><foo col="2">two</foo><foo col="3">three</foo><foo col="1">four</foo></bar>',
+is $auto->tag( tag => 'bar', cdata => { tag => 'foo', attr => { col => [1..3] }, cdata => [qw(one two three four)] } ),
+    '<bar><foo col="1">one</foo><foo col="2">two</foo><foo col="3">three</foo><foo col="1">four</foo></bar>',
     "nested tag with multiple children and rotating attributes";
 
 
 $auto = HTML::AutoTag->new( indent => '    ' );
 is $auto->tag( tag => 'foo' ),
     "<foo />\n",
-    "correct indention for closed tag";
+    "correct indentation for closed tag";
 
 is $auto->tag( tag => 'foo', cdata => 'bar' ),
     "<foo>bar</foo>\n",
-    "correct indention for tag with scalar cdata";
+    "correct indentation for tag with scalar cdata";
 
 is $auto->tag( tag => 'foo', cdata => [qw(bar baz qux)] ),
     "<foo>bar</foo>
 <foo>baz</foo>
 <foo>qux</foo>
 ",
-    "correct indention for tag with scalar cdata";
+    "correct indentation for tag with array ref cdata";
 
+is $auto->tag( tag => 'bar', cdata => { tag => 'foo', attr => { col => [1..3] }, cdata => [qw(one two three four)] } ),
+    '<bar>
+    <foo col="1">one</foo>
+    <foo col="2">two</foo>
+    <foo col="3">three</foo>
+    <foo col="1">four</foo>
+</bar>
+',
+    "correct indentation for nested tags";
 
 
 
