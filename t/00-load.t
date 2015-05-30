@@ -15,7 +15,7 @@ $new->{curr_level} = 2;
 is $new->_indent, '      ',     "got proper indent";
 
 my $auto = HTML::AutoTag->new;
-is $auto->{indent}, '',       "indent correctly set";
+is $auto->{indent}, undef,       "indent correctly set";
 is $auto->_indent, '',        "got proper indent";
 is $auto->_newline, '',        "got correct newline";
 
@@ -73,12 +73,23 @@ is $auto->tag( tag => 'bar', cdata => { tag => 'foo', attr => { col => [1..3] },
 </bar>
 ',
     "correct indentation for nested tags";
-
 exit;
 
 print $auto->tag( tag => 'bar', cdata => { tag => 'foo', attr => { col => [1..3] }, cdata => [qw(one two three four)] } );
 
-print $auto->tag( tag => 'bar', cdata => { tag => 'foo', cdata => [map { tag => 'bar' }, 1.. 4 ] } );
+print $auto->tag(
+    tag => 'bar',
+    cdata => { 
+        tag => 'foo', 
+        cdata => [
+            map {
+                tag => 'bar',
+                #cdata => $_
+            }, 1.. 4
+        ]
+     }
+);
+
 
 my $SIZE = 5; #500;
 my $data = [ map [($_)x$SIZE], 1..$SIZE ];
@@ -95,4 +106,77 @@ print $auto->tag(
             ],
         }, @$data
     ],
+);
+
+  my %attr = ( class => [qw(odd even)] );
+  my @data = qw( one two three four five six seven eight );
+  print $auto->tag(
+      tag   => 'ol', 
+      cdata => [
+          map { tag => 'li', attr => \%attr, cdata => $_ }, @data
+      ]
+  );
+
+
+  my %tr_attr = ( class => [qw(odd even)] );
+  
+  print $auto->tag(
+      tag => 'table',
+      attr => { class => 'spreadsheet' },
+      cdata => [
+          {
+              tag => 'tr',
+              attr => \%tr_attr,
+              cdata => {
+                  tag => 'td',
+                  attr => { style => { color => [qw(red green)] } },
+                  cdata => [qw(one two three four five six)],
+              },
+          },
+          {
+              tag => 'tr',
+              attr => \%tr_attr,
+              cdata => {
+                  tag => 'td',
+                  attr => { style => { color => [qw(red green)] } },
+                  cdata => [qw(seven eight nine ten eleven twelve)],
+              },
+          },
+          {
+              tag => 'tr',
+              attr => \%tr_attr,
+              cdata => {
+                  tag => 'td',
+                  attr => { style => { color => [qw(red green)] } },
+                  cdata => [qw(thirteen fourteen fifteen sixteen seventeen eighteen)],
+              },
+          },
+      ]
+  );
+
+
+print $auto->tag(
+    tag => 'aaa',
+    cdata => {
+        tag => 'bbb',
+        cdata => {
+            tag => 'ccc',
+            cdata => {
+                tag => 'ddd',
+                cdata => {
+                    tag => 'eee',
+                    cdata => {
+                        tag => 'fff',
+                        cdata => {
+                            tag => 'ggg',
+                            cdata => {
+                                tag => 'hhh',
+                                cdata => ':D',
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 );

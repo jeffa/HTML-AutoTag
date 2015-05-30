@@ -10,7 +10,6 @@ use Data::Dumper;
 sub new {
     my $self = shift;
     my $class = {@_};
-    $class->{indent} = ''       unless $class->{indent};
     $class->{encodes} = undef   unless exists $class->{encodes};
     $class->{curr_level} = 0;
     bless $class, $self;
@@ -55,6 +54,7 @@ sub tag {
     } elsif (ref($args{cdata}) eq 'HASH') {
         $self->{curr_level}++;
         $cdata = $self->tag( %{ $args{cdata} } );
+        $cdata = $self->_newline . $cdata unless $cdata =~ /^\n/;
         $self->{curr_level}--;
 
     } else {
@@ -79,7 +79,7 @@ sub _indent {
 
 sub _newline {
     my $self = shift;
-    return $self->{indent} ? "\n" : '';
+    return defined $self->{indent} ? "\n" : '';
 }
 
 
