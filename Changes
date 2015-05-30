@@ -1,6 +1,7 @@
 Revision history for HTML-AutoTag
 
 0.04    
+        - added HTML::Tagset tests
 
 0.03    
         - implemented encodes
