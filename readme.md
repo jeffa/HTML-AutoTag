@@ -7,18 +7,30 @@ Synopsis
 ```perl
 use HTML::AutoTag;
 
-my %attr = ( class => [qw(odd even)] );
+my %attr = ( style => { color => [qw(red green)] } );
 my @data = qw( one two three four five six seven eight );
 
 my $auto = HTML::AutoTag->new( indent => '    ' );
 
 print $auto->tag(
     tag   => 'ol', 
+    attr  => {qw( reversed reversed )},
     cdata => [
         map { tag => 'li', attr => \%attr, cdata => $_ }, @data
     ]
 );
 ```
+Results:
+<ol reversed="reversed">
+    <li style="color: red">one</li>
+    <li style="color: green">two</li>
+    <li style="color: red">three</li>
+    <li style="color: green">four</li>
+    <li style="color: red">five</li>
+    <li style="color: green">six</li>
+    <li style="color: red">seven</li>
+    <li style="color: green">eight</li>
+</ol>
 
 Installation
 ------------

@@ -96,13 +96,14 @@ HTML::AutoTag - Turn data into HTML.
 
   use HTML::AutoTag;
 
-  my %attr = ( class => [qw(odd even)] );
+  my %attr = ( style => { color => [qw(red green)] } );
   my @data = qw( one two three four five six seven eight );
 
   my $auto = HTML::AutoTag->new( indent => '    ' );
 
   print $auto->tag(
       tag   => 'ol', 
+      attr  => {qw( reversed reversed )},
       cdata => [
           map { tag => 'li', attr => \%attr, cdata => $_ }, @data
       ]
