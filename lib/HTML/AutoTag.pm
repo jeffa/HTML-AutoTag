@@ -58,7 +58,7 @@ sub tag {
         $self->{level}--;
 
     } else {
-        $cdata = (length( $self->{encodes} ) or ! defined( $self->{encodes} ))
+        $cdata = ( defined( $self->{encodes} ) and length( $self->{encodes} ) or ! defined( $self->{encodes} ) )
             ? HTML::Entities::encode_entities( $args{cdata}, $self->{encodes} )
             : $args{cdata};
         $indent_flag = 1;
