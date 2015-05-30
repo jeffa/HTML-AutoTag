@@ -1,11 +1,11 @@
 Revision history for HTML-AutoTag
 
 0.03    
-        -
+        - implemented encodes
+
 0.02    
         - more tests
         - implemented indent
 
 0.01    
         - First version, released on an unsuspecting world.
-
