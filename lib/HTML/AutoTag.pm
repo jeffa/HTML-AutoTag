@@ -11,7 +11,7 @@ sub new {
     my $self = shift;
     my $class = {@_};
     $class->{encodes} = undef   unless exists $class->{encodes};
-    $class->{curr_level} = 0;
+    $class->{level} = 0    unless exists $class->{level};
     bless $class, $self;
 }
 
@@ -36,15 +36,15 @@ sub tag {
 
         if (ref($args{cdata}[0]) eq 'HASH') {
 
-            $self->{curr_level}++;
+            $self->{level}++;
             for (0 .. $#{ $args{cdata} }) {
                 my $newline = !$_ ? $self->_newline : '';
                 $cdata .= $newline . $self->tag( %{ $args{cdata}[$_] } );
             }
-            $self->{curr_level}--;
+            $self->{level}--;
 
         } else {
-            my $str = $self->{curr_level} ? $self->_newline : '';
+            my $str = $self->{level} ? $self->_newline : '';
             for (@{ $args{cdata} }) {
                 $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_);
             }
@@ -52,10 +52,10 @@ sub tag {
         }
 
     } elsif (ref($args{cdata}) eq 'HASH') {
-        $self->{curr_level}++;
+        $self->{level}++;
         $cdata = $self->tag( %{ $args{cdata} } );
         $cdata = $self->_newline . $cdata unless $cdata =~ /^\n/;
-        $self->{curr_level}--;
+        $self->{level}--;
 
     } else {
         $cdata = $args{cdata};
@@ -74,7 +74,7 @@ sub tag {
 
 sub _indent {
     my $self = shift;
-    return $self->{indent} ? ($self->{indent} x $self->{curr_level}) : '';
+    return $self->{indent} ? ($self->{indent} x $self->{level}) : '';
 }
 
 sub _newline {
@@ -110,7 +110,7 @@ THIS IS AN ALPHA RELEASE - the interface could change at a ++ of $VERSION.
 
 =head1 DESCRIPTION
 
-This module will make some HTML, yo.
+This module will make some HTMLs, yo.
 
 =head1 METHODS
 
@@ -118,7 +118,7 @@ This module will make some HTML, yo.
 
 =item * C<new()>
 
-Accepts two arguments:
+Accepts three arguments:
 
 =over 8
 
@@ -126,12 +126,17 @@ Accepts two arguments:
 
 Encode HTML entities. Defaults to empty string which produces no encoding.
 Set value to those characters you wish to have encoded. Set value to undef
-to encode all unsafe characters.
+to encode all unsafe characters. (currently not implemented, yo)
 
 =item * C<indent>
 
 Pretty print results. Defaults to undef which produces no indentation.
 Set value to any number of spaces or tabs and newlines will also be appended.
+
+=item * C<level>
+
+Indentation level to start at. Can be used in conjunction with C<indent>
+to set indentation even deeper.
 
 =back
 
