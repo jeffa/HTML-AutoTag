@@ -31,45 +31,49 @@ sub tag {
         return sprintf '%s<%s%s />%s', $self->_indent, $args{tag}, scalar( %$attr ), $self->_newline;
     }
 
+    my $indent_flag;
     my $cdata = '';
     if (ref($args{cdata}) eq 'ARRAY') {
 
         if (ref($args{cdata}[0]) eq 'HASH') {
 
-            $cdata .= $self->tag( %$_ ) for @{ $args{cdata} };
+            $self->{curr_level}++;
+            for (0 .. $#{ $args{cdata} }) {
+                my $newline = !$_ ? $self->_newline : '';
+                $cdata .= $newline . $self->tag( %{ $args{cdata}[$_] } );
+            }
+            $self->{curr_level}--;
 
         } else {
             my $str = $self->{curr_level} ? $self->_newline : '';
             for (@{ $args{cdata} }) {
-                $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_)
+                $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_);
             }
             return $str;
         }
 
     } elsif (ref($args{cdata}) eq 'HASH') {
         $self->{curr_level}++;
-        $cdata = $self->tag( %{ $args{cdata} } );
-        $self->{curr_level}--
+        $cdata .= $self->tag( %{ $args{cdata} } );
+        $self->{curr_level}--;
 
     } else {
         $cdata = $args{cdata};
+        $indent_flag = 1;
     }
     
-    return sprintf '%s<%s%s>%s</%s>%s', $self->_indent, $args{tag}, scalar( %$attr ), $cdata, $args{tag}, $self->_newline;
+    my $indent = !$indent_flag ? $self->_indent : '';
+    return sprintf '%s<%s%s>%s%s</%s>%s', $self->_indent, $args{tag}, scalar( %$attr ), $cdata, $indent, $args{tag}, $self->_newline;
 }
 
 sub _indent {
     my $self = shift;
-    return $self->{indent} 
-        ? ($self->{indent} x $self->{curr_level})
-        : '';
+    return $self->{indent} ? ($self->{indent} x $self->{curr_level}) : '';
 }
 
 sub _newline {
     my $self = shift;
-    return $self->{indent} 
-        ? "\n" 
-        : '';
+    return $self->{indent} ? "\n" : '';
 }
 
 

@@ -74,6 +74,25 @@ is $auto->tag( tag => 'bar', cdata => { tag => 'foo', attr => { col => [1..3] },
 ',
     "correct indentation for nested tags";
 
+exit;
 
+print $auto->tag( tag => 'bar', cdata => { tag => 'foo', attr => { col => [1..3] }, cdata => [qw(one two three four)] } );
 
+print $auto->tag( tag => 'bar', cdata => { tag => 'foo', cdata => [map { tag => 'bar' }, 1.. 4 ] } );
 
+my $SIZE = 5; #500;
+my $data = [ map [($_)x$SIZE], 1..$SIZE ];
+print $auto->tag(
+    tag => 'table',
+    cdata => [
+        map {
+            tag => 'tr',
+            cdata => [
+                map {
+                    tag => 'td',
+                    cdata => $_,
+                }, @$_
+            ],
+        }, @$data
+    ],
+);
