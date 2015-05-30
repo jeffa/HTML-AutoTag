@@ -49,72 +49,71 @@ for (sort keys %HTML::Tagset::boolean_attr) {
     push @given, $auto->tag( tag => $_, attr => $attr, cdata => '' );
 }
 
-for (@given) {
+for (sort @given) {
     chomp( $_ );
     is "$_\n", <DATA>,  "correctly formed: $_";
 }
 
 __DATA__
-<area />
-<base />
-<basefont />
-<bgsound />
-<br />
-<col />
-<dd />
-<dt />
-<embed />
-<frame />
-<hr />
-<img />
-<input />
-<isindex />
-<li />
-<link />
-<meta />
-<p />
-<param />
-<spacer />
-<wbr />
-<~comment />
-<~declaration />
-<~literal />
-<~pi />
+<a href="value"></a>
 <a></a>
 <abbr></abbr>
 <acronym></acronym>
 <address></address>
+<applet archive="value" code="value" codebase="value"></applet>
 <applet></applet>
+<area />
+<area href="value"></area>
+<area nohref="1"></area>
 <area></area>
 <b></b>
+<base />
+<base href="value"></base>
 <base></base>
+<basefont />
 <basefont></basefont>
 <bdo></bdo>
+<bgsound />
+<bgsound src="value"></bgsound>
 <bgsound></bgsound>
 <big></big>
 <blink></blink>
+<blockquote cite="value"></blockquote>
 <blockquote></blockquote>
+<body background="value"></body>
 <body></body>
+<br />
 <br></br>
 <button></button>
 <caption></caption>
 <center></center>
 <cite></cite>
 <code></code>
+<col />
 <col></col>
 <colgroup></colgroup>
+<dd />
 <dd></dd>
+<del cite="value"></del>
 <del></del>
 <dfn></dfn>
+<dir compact="1"></dir>
 <dir></dir>
 <div></div>
+<dl compact="1"></dl>
 <dl></dl>
+<dt />
 <dt></dt>
 <em></em>
+<embed />
+<embed pluginspage="value" src="value"></embed>
 <embed></embed>
 <fieldset></fieldset>
 <font></font>
+<form action="value"></form>
 <form></form>
+<frame />
+<frame longdesc="value" src="value"></frame>
 <frame></frame>
 <frameset></frameset>
 <h1></h1>
@@ -123,24 +122,44 @@ __DATA__
 <h4></h4>
 <h5></h5>
 <h6></h6>
+<head profile="value"></head>
 <head></head>
+<hr />
+<hr noshade="1"></hr>
 <hr></hr>
 <html></html>
 <i></i>
+<iframe longdesc="value" src="value"></iframe>
 <iframe></iframe>
+<ilayer background="value"></ilayer>
 <ilayer></ilayer>
+<img />
+<img ismap="1"></img>
+<img longdesc="value" lowsrc="value" src="value" usemap="value"></img>
 <img></img>
+<input />
+<input checked="1" disabled="1" readonly="1"></input>
+<input src="value" usemap="value"></input>
 <input></input>
+<ins cite="value"></ins>
 <ins></ins>
+<isindex />
+<isindex action="value"></isindex>
 <isindex></isindex>
 <kbd></kbd>
 <label></label>
+<layer background="value" src="value"></layer>
 <legend></legend>
+<li />
 <li></li>
+<link />
+<link href="value"></link>
 <link></link>
 <listing></listing>
 <map></map>
+<menu compact="1"></menu>
 <menu></menu>
+<meta />
 <meta></meta>
 <multicol></multicol>
 <nobr></nobr>
@@ -148,20 +167,29 @@ __DATA__
 <noframes></noframes>
 <nolayer></nolayer>
 <noscript></noscript>
+<object archive="value" classid="value" codebase="value" data="value" usemap="value"></object>
 <object></object>
+<ol compact="1"></ol>
 <ol></ol>
 <optgroup></optgroup>
+<option selected="1"></option>
 <option></option>
+<p />
 <p></p>
+<param />
 <param></param>
 <plaintext></plaintext>
 <pre></pre>
+<q cite="value"></q>
 <q></q>
 <s></s>
 <samp></samp>
+<script for="value" src="value"></script>
 <script></script>
+<select multiple="1"></select>
 <select></select>
 <small></small>
+<spacer />
 <spacer></spacer>
 <span></span>
 <strike></strike>
@@ -169,63 +197,35 @@ __DATA__
 <style></style>
 <sub></sub>
 <sup></sup>
+<table background="value"></table>
 <table></table>
 <tbody></tbody>
+<td background="value"></td>
+<td nowrap="1"></td>
 <td></td>
 <textarea></textarea>
 <tfoot></tfoot>
+<th background="value"></th>
+<th nowrap="1"></th>
 <th></th>
 <thead></thead>
 <title></title>
+<tr background="value"></tr>
 <tr></tr>
 <tt></tt>
 <u></u>
+<ul compact="1"></ul>
 <ul></ul>
 <var></var>
+<wbr />
 <wbr></wbr>
-<xmp></xmp>
-<~comment></~comment>
-<~directive></~directive>
-<~literal></~literal>
-<~pi></~pi>
-<a href="value"></a>
-<applet archive="value" code="value" codebase="value"></applet>
-<area href="value"></area>
-<base href="value"></base>
-<bgsound src="value"></bgsound>
-<blockquote cite="value"></blockquote>
-<body background="value"></body>
-<del cite="value"></del>
-<embed pluginspage="value" src="value"></embed>
-<form action="value"></form>
-<frame longdesc="value" src="value"></frame>
-<head profile="value"></head>
-<iframe longdesc="value" src="value"></iframe>
-<ilayer background="value"></ilayer>
-<img longdesc="value" lowsrc="value" src="value" usemap="value"></img>
-<input src="value" usemap="value"></input>
-<ins cite="value"></ins>
-<isindex action="value"></isindex>
-<layer background="value" src="value"></layer>
-<link href="value"></link>
-<object archive="value" classid="value" codebase="value" data="value" usemap="value"></object>
-<q cite="value"></q>
-<script for="value" src="value"></script>
-<table background="value"></table>
-<td background="value"></td>
-<th background="value"></th>
-<tr background="value"></tr>
 <xmp href="value"></xmp>
-<area nohref="1"></area>
-<dir compact="1"></dir>
-<dl compact="1"></dl>
-<hr noshade="1"></hr>
-<img ismap="1"></img>
-<input checked="1" disabled="1" readonly="1"></input>
-<menu compact="1"></menu>
-<ol compact="1"></ol>
-<option selected="1"></option>
-<select multiple="1"></select>
-<td nowrap="1"></td>
-<th nowrap="1"></th>
-<ul compact="1"></ul>
+<xmp></xmp>
+<~comment />
+<~comment></~comment>
+<~declaration />
+<~directive></~directive>
+<~literal />
+<~literal></~literal>
+<~pi />
+<~pi></~pi>
