@@ -5,7 +5,7 @@ use warnings FATAL => 'all';
 use Test::More;
 use HTML::AutoTag;
 
-eval "use HTML::Tagset";
+eval "use HTML::Tagset 3.20";
 plan skip_all => "HTML::Tagset required" if $@;
 
 plan tests => 174;
