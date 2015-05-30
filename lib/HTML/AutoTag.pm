@@ -179,7 +179,7 @@ The value inbetween the tag. Types allowed are:
 
 =over 4
 
-=item * L<HTML::Entities>;
+=item * L<HTML::Entities>
 
 Used to encode unsafe HTML entities.
 
@@ -191,7 +191,7 @@ Used to create rotating attributes.
 
 =head1 EXAMPLE
 
-The following should render a table with rotating attributes. Notice the
+The following will render a table with rotating attributes. Notice the
 need to supply the same reference for each <tr> attribute:
 
   my %tr_attr = ( class => [qw(odd even)] );
@@ -229,6 +229,9 @@ need to supply the same reference for each <tr> attribute:
           },
       ]
   );
+
+See tests in C<t/> from the distribution or github for more examples:
+L<https://github.com/jeffa/HTML-AutoTag/tree/master/t>
 
 =head1 INSPIRATION
 
