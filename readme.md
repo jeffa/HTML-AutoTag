@@ -20,17 +20,6 @@ print $auto->tag(
     ]
 );
 ```
-Results:
-<ol reversed="reversed">
-    <li style="color: red">one</li>
-    <li style="color: green">two</li>
-    <li style="color: red">three</li>
-    <li style="color: green">four</li>
-    <li style="color: red">five</li>
-    <li style="color: green">six</li>
-    <li style="color: red">seven</li>
-    <li style="color: green">eight</li>
-</ol>
 
 Installation
 ------------
