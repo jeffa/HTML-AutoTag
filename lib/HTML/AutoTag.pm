@@ -90,8 +90,6 @@ __END__
 
 HTML::AutoTag - Turn data into HTML.
 
-THIS IS AN ALPHA RELEASE - the interface could change at a ++ of $VERSION.
-
 =head1 SYNOPSIS
 
   use HTML::AutoTag;
@@ -111,6 +109,8 @@ THIS IS AN ALPHA RELEASE - the interface could change at a ++ of $VERSION.
 =head1 DESCRIPTION
 
 This module will make some HTMLs, yo.
+
+THIS IS AN ALPHA RELEASE - the interface could change at a ++ of $VERSION.
 
 =head1 METHODS
 

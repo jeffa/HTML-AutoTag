@@ -1,6 +1,6 @@
 HTML::AutoTag
 =============
-Turn data into HTML.
+Make some HTMLs, yo.
 
 Synopsis
 --------
