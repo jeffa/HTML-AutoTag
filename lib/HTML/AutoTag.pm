@@ -54,7 +54,7 @@ sub tag {
 
     } elsif (ref($args{cdata}) eq 'HASH') {
         $self->{curr_level}++;
-        $cdata .= $self->tag( %{ $args{cdata} } );
+        $cdata = $self->tag( %{ $args{cdata} } );
         $self->{curr_level}--;
 
     } else {
@@ -63,7 +63,13 @@ sub tag {
     }
     
     my $indent = !$indent_flag ? $self->_indent : '';
-    return sprintf '%s<%s%s>%s%s</%s>%s', $self->_indent, $args{tag}, scalar( %$attr ), $cdata, $indent, $args{tag}, $self->_newline;
+
+    return sprintf '%s<%s%s>%s%s</%s>%s',
+        $self->_indent,
+        $args{tag}, scalar( %$attr ),
+        $cdata, $indent,
+        $args{tag}, $self->_newline
+    ;
 }
 
 sub _indent {
