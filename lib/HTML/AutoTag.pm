@@ -4,14 +4,14 @@ use strict;
 use warnings FATAL => 'all';
 our $VERSION = '0.03';
 
+use HTML::Entities;
 use Tie::Hash::Attribute;
-use Data::Dumper;
 
 sub new {
     my $self = shift;
     my $class = {@_};
-    $class->{encodes} = undef   unless exists $class->{encodes};
-    $class->{level} = 0    unless exists $class->{level};
+    $class->{encodes} = ''      unless exists $class->{encodes};
+    $class->{level}   = 0       unless exists $class->{level};
     bless $class, $self;
 }
 
@@ -58,7 +58,9 @@ sub tag {
         $self->{level}--;
 
     } else {
-        $cdata = $args{cdata};
+        $cdata = (length( $self->{encodes} ) or ! defined( $self->{encodes} ))
+            ? HTML::Entities::encode_entities( $args{cdata}, $self->{encodes} )
+            : $args{cdata};
         $indent_flag = 1;
     }
     
@@ -126,7 +128,7 @@ Accepts three arguments:
 
 Encode HTML entities. Defaults to empty string which produces no encoding.
 Set value to those characters you wish to have encoded. Set value to undef
-to encode all unsafe characters. (currently not implemented, yo)
+to encode the unsafe characters <, >, and &. = not encoded by default.
 
 =item * C<indent>
 
@@ -176,7 +178,7 @@ The value inbetween the tag. Types allowed are:
 
 =over 4
 
-=item * C<Tie::Hash::Attribute>
+=item * L<Tie::Hash::Attribute>
 
 Used to create rotating attributes.
 
@@ -230,8 +232,8 @@ arbitrary HTML text by turning any non-defined method call into a wrapper.
 
 Gisle Aas's L<HTML::Tree> has a wonderful method (HTML::Element::new_from_lol)
 which this module draws most of its interface inspiration from. I would like
-to continue tweaking this code, while the named parameters make for a clean
-implementation they do get in the way of client.
+to continue tweaking this code - while the named parameters make for a clean
+implementation they do get in the way of the client.
 
 =head1 BUGS AND LIMITATIONS
 

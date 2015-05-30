@@ -8,7 +8,7 @@ WriteMakefile(
     AUTHOR           => q{Jeff Anderson <jeffa@cpan.org>},
     VERSION_FROM     => 'lib/HTML/AutoTag.pm',
     ABSTRACT_FROM    => 'lib/HTML/AutoTag.pm',
-    LICENSE          => 'Artistic_2_0',
+    LICENSE          => 'artistic_2',
     PL_FILES         => {},
     MIN_PERL_VERSION => 5.006,
     CONFIGURE_REQUIRES => {
@@ -18,7 +18,8 @@ WriteMakefile(
         'Test::More' => 0,
     },
     PREREQ_PM => {
-        'Tie::Hash::Attribute' => 0.04,
+        'HTML::Entities'        => 0,
+        'Tie::Hash::Attribute'  => 0.04,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'HTML-AutoTag-*' },
