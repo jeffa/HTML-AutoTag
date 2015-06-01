@@ -19,7 +19,7 @@ WriteMakefile(
     },
     PREREQ_PM => {
         'HTML::Entities'        => 0,
-        'Tie::Hash::Attribute'  => 0.05,
+        'Tie::Hash::Attribute'  => 0.04,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'HTML-AutoTag-*' },
