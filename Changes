@@ -1,15 +1,17 @@
 Revision history for HTML-AutoTag
 
+0.05    
+
 0.04    
-        - short-circuit from tie-ing simple hashes (speed increase)
-        - added HTML::Tagset tests
+    - short-circuit from tie-ing simple hashes (speed increase)
+    - added HTML::Tagset tests
 
 0.03    
-        - implemented encodes
+    - implemented encodes
 
 0.02    
-        - more tests
-        - implemented indent
+    - more tests
+    - implemented indent
 
 0.01    
-        - First version, released on an unsuspecting world.
+    - First version, released on an unsuspecting world.
