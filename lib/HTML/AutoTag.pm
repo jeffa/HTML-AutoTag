@@ -20,14 +20,30 @@ sub tag {
     my %args = @_;
     my $attr = $args{attr};
 
-    unless ( grep /^-/, keys %$attr ) {
-        tie my %attr, 'Tie::Hash::Attribute';
-        %attr = %$attr;
-        $attr = \%attr;
+    my $attr_str;
+    if (grep ref($_), values %$attr) {
+        unless (grep /^-/, keys %$attr) {
+            tie my %attr, 'Tie::Hash::Attribute';
+            %attr = %$attr;
+            $attr = \%attr;
+        }
+    } else {
+        $attr_str = '';
+        for my $key (sort keys %$attr) {
+            $attr_str .= sprintf ' %s="%s"',
+                Tie::Hash::Attribute::_key( $key ),
+                Tie::Hash::Attribute::_val( $attr->{$key} )
+            ;
+        }
     }
 
     unless (defined $args{cdata}) {
-        return sprintf '%s<%s%s />%s', $self->_indent, $args{tag}, scalar( %$attr ), $self->_newline;
+        return sprintf '%s<%s%s />%s',
+            $self->_indent,
+            $args{tag},
+            defined( $attr_str ) ? $attr_str : scalar( %$attr ),
+            $self->_newline
+        ;
     }
 
     my $indent_flag;
@@ -68,7 +84,8 @@ sub tag {
 
     return sprintf '%s<%s%s>%s%s</%s>%s',
         $self->_indent,
-        $args{tag}, scalar( %$attr ),
+        $args{tag},
+        defined( $attr_str ) ? $attr_str : scalar( %$attr ),
         $cdata, $indent,
         $args{tag}, $self->_newline
     ;
@@ -293,7 +310,7 @@ You can also look for information at:
 
 =item * L<HTML::Tagset>
 
-This module takes a liberal approach to HTML creation. It does
+HTML::AutoTag takes a liberal approach to HTML creation. It does
 not validate the names of the tags or the names of attributes. It
 does not enforce rules for organization of the tags. HTML::Tagset
 provides "data tables useful in parsing HTML," they can also be
