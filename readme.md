@@ -1,6 +1,6 @@
 HTML::AutoTag
 =============
-Make some HTMLs, yo.
+Just another HTML tag generator.
 
 Synopsis
 --------

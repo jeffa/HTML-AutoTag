@@ -107,7 +107,7 @@ sub _newline {
 __END__
 =head1 NAME
 
-HTML::AutoTag - Turn data into HTML.
+HTML::AutoTag - Just another HTML tag generator.
 
 =head1 SYNOPSIS
 
