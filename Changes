@@ -1,6 +1,9 @@
 Revision history for HTML-AutoTag
 
 0.05    
+    - defactored level and indent from subs to global vars
+        (slight speed increase)
+    - require Tie::Hash::Attribute v0.06
 
 0.04    
     - short-circuit from tie-ing simple hashes (speed increase)

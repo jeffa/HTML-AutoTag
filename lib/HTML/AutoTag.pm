@@ -7,12 +7,16 @@ our $VERSION = '0.05';
 use HTML::Entities;
 use Tie::Hash::Attribute;
 
+our( $INDENT, $NEWLINE, $LEVEL, $ENCODES );
+
 sub new {
     my $self = shift;
-    my $class = {@_};
-    $class->{encodes} = ''      unless exists $class->{encodes};
-    $class->{level}   = 0       unless exists $class->{level};
-    bless $class, $self;
+    my $args = {@_};
+    $ENCODES = exists  ( $args->{encodes} ) ? $args->{encodes} : '';
+    $INDENT  = defined ( $args->{indent}  ) ? $args->{indent} : '';
+    $NEWLINE = defined ( $args->{indent}  ) ? "\n" : '';
+    $LEVEL   = $args->{level} || 0;
+    bless {}, $self;
 }
 
 sub tag {
@@ -22,12 +26,14 @@ sub tag {
 
     my $attr_str;
     if (grep ref($_), values %$attr) {
+        # complex attrs use a tied hash
         unless (grep /^-/, keys %$attr) {
             tie my %attr, 'Tie::Hash::Attribute';
             %attr = %$attr;
             $attr = \%attr;
         }
     } else {
+        # simple attrs can bypass being tied
         $attr_str = '';
         for my $key (sort keys %$attr) {
             $attr_str .= sprintf ' %s="%s"',
@@ -39,10 +45,10 @@ sub tag {
 
     unless (defined $args{cdata}) {
         return sprintf '%s<%s%s />%s',
-            $self->_indent,
+            ( $INDENT x $LEVEL ),
             $args{tag},
             defined( $attr_str ) ? $attr_str : scalar( %$attr ),
-            $self->_newline
+            $NEWLINE,
         ;
     }
 
@@ -53,14 +59,15 @@ sub tag {
         if (ref($args{cdata}[0]) eq 'HASH') {
 
             $self->{level}++;
+            $LEVEL++;
             for (0 .. $#{ $args{cdata} }) {
-                my $newline = !$_ ? $self->_newline : '';
-                $cdata .= $newline . $self->tag( %{ $args{cdata}[$_] } );
+                $cdata .= ( !$_ ? $NEWLINE : '' ) . $self->tag( %{ $args{cdata}[$_] } );
             }
             $self->{level}--;
+            $LEVEL--;
 
         } else {
-            my $str = $self->{level} ? $self->_newline : '';
+            my $str = $self->{level} ? $NEWLINE : '';
             for (@{ $args{cdata} }) {
                 $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_);
             }
@@ -69,38 +76,29 @@ sub tag {
 
     } elsif (ref($args{cdata}) eq 'HASH') {
         $self->{level}++;
+        $LEVEL++;
         $cdata = $self->tag( %{ $args{cdata} } );
-        $cdata = $self->_newline . $cdata unless $cdata =~ /^\n/;
+        $cdata = $NEWLINE . $cdata unless $cdata =~ /^\n/;
         $self->{level}--;
+        $LEVEL--;
 
     } else {
-        $cdata = ( defined( $self->{encodes} ) and length( $self->{encodes} ) or ! defined( $self->{encodes} ) )
-            ? HTML::Entities::encode_entities( $args{cdata}, $self->{encodes} )
+        $cdata = ( defined( $ENCODES ) and length( $ENCODES ) or ! defined( $ENCODES ) )
+            ? HTML::Entities::encode_entities( $args{cdata}, $ENCODES )
             : $args{cdata};
         $indent_flag = 1;
     }
     
-    my $indent = !$indent_flag ? $self->_indent : '';
+    my $indent = !$indent_flag ? ( $INDENT x $LEVEL ) : '';
 
     return sprintf '%s<%s%s>%s%s</%s>%s',
-        $self->_indent,
+        ( $INDENT x $LEVEL ),
         $args{tag},
         defined( $attr_str ) ? $attr_str : scalar( %$attr ),
         $cdata, $indent,
-        $args{tag}, $self->_newline
+        $args{tag}, $NEWLINE,
     ;
 }
-
-sub _indent {
-    my $self = shift;
-    return $self->{indent} ? ($self->{indent} x $self->{level}) : '';
-}
-
-sub _newline {
-    my $self = shift;
-    return defined $self->{indent} ? "\n" : '';
-}
-
 
 1;
 

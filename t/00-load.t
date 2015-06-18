@@ -2,22 +2,11 @@
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
-use Test::More tests => 17;
+use Test::More tests => 9;
 
 use_ok 'HTML::AutoTag';
 
-my $new = new_ok 'HTML::AutoTag', [ encodes => '<>', indent => '   ' ];
-is $new->{encodes}, '<>',       "encodes correctly set";
-is $new->{indent}, '   ',       "indent correctly set";
-is $new->_indent, '',           "got proper indent";
-is $new->_newline, "\n",        "got correct newline";
-$new->{level} = 2;
-is $new->_indent, '      ',     "got proper indent";
-
-my $auto = HTML::AutoTag->new;
-is $auto->{indent}, undef,      "indent correctly set";
-is $auto->_indent, '',          "got proper indent";
-is $auto->_newline, '',         "got correct newline";
+my $auto = new_ok 'HTML::AutoTag';
 
 is $auto->tag( tag => 'foo' ),
     '<foo />',
