@@ -126,9 +126,10 @@ HTML::AutoTag - Just another HTML tag generator.
 
 =head1 DESCRIPTION
 
-This module will make some HTMLs, yo.
+Generate nested HTML4, XHTML and HTML5 tags with custom indentation,
+custom encoding and automatic attribute value rotation.
 
-THIS IS AN ALPHA RELEASE - the interface could change at a ++ of $VERSION.
+THIS IS AN ALPHA RELEASE, although we are very close to BETA.
 
 =head1 METHODS
 
@@ -207,8 +208,7 @@ Used to create rotating attributes.
 
 =head1 EXAMPLE
 
-The following will render a table with rotating attributes. Notice the
-need to supply the same reference for each <tr> attribute:
+The following will render a table with rotating attributes.
 
   my %tr_attr = ( class => [qw(odd even)] );
   
