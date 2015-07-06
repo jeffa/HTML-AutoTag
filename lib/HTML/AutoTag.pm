@@ -126,7 +126,7 @@ HTML::AutoTag - Just another HTML tag generator.
 
 =head1 DESCRIPTION
 
-Generate nested HTML4, XHTML and HTML5 tags with custom indentation,
+Generate nested HTML (HTML4, XHTML and HTML5) tags with custom indentation,
 custom encoding and automatic attribute value rotation.
 
 THIS IS AN ALPHA RELEASE, although we are very close to BETA.
@@ -268,7 +268,22 @@ the rotating attributes feature (now in L<Tie::Hash::Attribute>).
 
 =head1 BUGS AND LIMITATIONS
 
-Please report any bugs or feature requests to either:
+This module uses (and emulates) L<Tie::Hash::Attribute> which sorts
+HTML attributes by their names. While the order of attributes found
+within a tag normally does not matter, there are a handful of cases where
+it might, such as specifying borders. However, for every case found
+there is a workaround, in the case of borders use one attribute instead
+of many.
+
+  <td style="border: 1px solid black">
+
+  instead of 
+
+  <td style="border-width: 1px; border-style: solid; border-color: black">
+
+If you find a situtation in which this module cannot produce what you
+need please feel free to report a bug. You may report any bugs or
+feature requests to either:
 
 =over 4
 
@@ -312,8 +327,8 @@ HTML::AutoTag takes a liberal approach to HTML creation. It does
 not validate the names of the tags or the names of attributes. It
 does not enforce rules for organization of the tags. HTML::Tagset
 provides "data tables useful in parsing HTML," they can also be
-useful here in the valid formation of HTML. Me? I use templates,
-but that doesn't mean the idea is invalid - just narrows the audience.
+useful here in the valid formation of HTML, if that kind of thing
+concerns you.
 
 =item * L<http://www.w3.org/TR/html5/syntax.html>
 
