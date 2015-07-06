@@ -1,6 +1,7 @@
 Revision history for HTML-AutoTag
 
 0.06    
+    - require latest version of HTML::Entities
 
 0.05    
     - defactored level and indent from subs to global vars
