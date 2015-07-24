@@ -1,6 +1,8 @@
 Revision history for HTML-AutoTag
 
 0.07    
+    - added sort param (for sorting attr names via Tie::Hash::Attribute)
+    - require Tie::Hash::Attribute v0.08
 
 0.06    
     - require latest version of HTML::Entities

@@ -32,7 +32,7 @@ my ( @empty, %empty, @containers, %containers );
     %containers = map { $_ => undef } @containers;
 }
 
-my $auto = HTML::AutoTag->new( indent => '' );
+my $auto = HTML::AutoTag->new( indent => '', sort => 1 );
 
 my @given;
 push @given, $auto->tag( tag => $_ ) for sort keys %empty;

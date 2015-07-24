@@ -7,7 +7,7 @@ our $VERSION = '0.07';
 use HTML::Entities;
 use Tie::Hash::Attribute;
 
-our( $INDENT, $NEWLINE, $LEVEL, $ENCODES );
+our( $INDENT, $NEWLINE, $LEVEL, $ENCODES, $SORT );
 
 sub new {
     my $self = shift;
@@ -16,6 +16,7 @@ sub new {
     $INDENT  = defined ( $args->{indent}  ) ? $args->{indent} : '';
     $NEWLINE = defined ( $args->{indent}  ) ? "\n" : '';
     $LEVEL   = $args->{level} || 0;
+    $SORT    = defined $args->{sort};
     bless {}, $self;
 }
 
@@ -35,7 +36,8 @@ sub tag {
     } else {
         # simple attrs can bypass being tied
         $attr_str = '';
-        for my $key (sort keys %$attr) {
+        my @keys = $SORT ? sort keys %$attr : keys %$attr;
+        for my $key (@keys) {
             $attr_str .= sprintf ' %s="%s"',
                 Tie::Hash::Attribute::_key( $key ),
                 Tie::Hash::Attribute::_val( $attr->{$key} )
@@ -189,6 +191,13 @@ The value inbetween the tag. Types allowed are:
 =back
 
 =back
+
+=item * C<sort>
+
+Sorts the attribute names of the tag alphabetically. This is mostly
+useful for ensuring consistancy. The attributes (and potential sorting)
+happen within L<Tie::Hash::Attribute>. You most likely will not
+need this feature.
 
 =back
 
