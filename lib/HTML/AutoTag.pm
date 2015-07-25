@@ -2,7 +2,7 @@ package HTML::AutoTag;
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use HTML::Entities;
 use Tie::Hash::Attribute;
