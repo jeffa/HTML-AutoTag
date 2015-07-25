@@ -6,7 +6,7 @@ use Test::More tests => 1;
 
 use HTML::AutoTag;
 
-my $auto = HTML::AutoTag->new( sort => 1 );
+my $auto = HTML::AutoTag->new( sorted => 1 );
 
 is $auto->tag(
     tag => 'svg',

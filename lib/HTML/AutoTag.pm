@@ -7,7 +7,7 @@ our $VERSION = '0.07';
 use HTML::Entities;
 use Tie::Hash::Attribute;
 
-our( $INDENT, $NEWLINE, $LEVEL, $ENCODES, $SORT );
+our( $INDENT, $NEWLINE, $LEVEL, $ENCODES, $SORTED );
 
 sub new {
     my $self = shift;
@@ -16,7 +16,7 @@ sub new {
     $INDENT  = defined ( $args->{indent}  ) ? $args->{indent} : '';
     $NEWLINE = defined ( $args->{indent}  ) ? "\n" : '';
     $LEVEL   = $args->{level} || 0;
-    $SORT    = defined $args->{sort};
+    $SORTED  = $args->{sorted};
     bless {}, $self;
 }
 
@@ -29,14 +29,14 @@ sub tag {
     if (grep ref($_), values %$attr) {
         # complex attrs use a tied hash
         unless (grep /^-/, keys %$attr) {
-            tie my %attr, 'Tie::Hash::Attribute';
+            tie my %attr, 'Tie::Hash::Attribute', sorted => $SORTED;
             %attr = %$attr;
             $attr = \%attr;
         }
     } else {
         # simple attrs can bypass being tied
         $attr_str = '';
-        my @keys = $SORT ? sort keys %$attr : keys %$attr;
+        my @keys = $SORTED ? sort keys %$attr : keys %$attr;
         for my $key (@keys) {
             $attr_str .= sprintf ' %s="%s"',
                 Tie::Hash::Attribute::_key( $key ),
@@ -192,7 +192,7 @@ The value inbetween the tag. Types allowed are:
 
 =back
 
-=item * C<sort>
+=item * C<sorted>
 
 Sorts the attribute names of the tag alphabetically. This is mostly
 useful for ensuring consistancy. The attributes (and potential sorting)
