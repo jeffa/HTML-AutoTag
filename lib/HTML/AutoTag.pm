@@ -22,6 +22,74 @@ sub new {
 
 sub tag {
     my $self = shift;
+    return $self->_tag_with_indent( @_ ) if $INDENT;
+
+    my %args = @_;
+    my $attr = $args{attr};
+
+    my $attr_str;
+    if (grep ref($_), values %$attr) {
+        # complex attrs use a tied hash
+        unless (grep /^-/, keys %$attr) {
+            tie my %attr, 'Tie::Hash::Attribute', sorted => $SORTED;
+            %attr = %$attr;
+            $attr = \%attr;
+        }
+    } else {
+        # simple attrs can bypass being tied
+        $attr_str = '';
+        my @keys = $SORTED ? sort keys %$attr : keys %$attr;
+        for my $key (@keys) {
+            $attr_str .= sprintf ' %s="%s"',
+                Tie::Hash::Attribute::_key( $key ),
+                Tie::Hash::Attribute::_val( $attr->{$key} )
+            ;
+        }
+    }
+
+    unless (defined $args{cdata}) {
+        return sprintf '<%s%s />',
+            $args{tag},
+            defined( $attr_str ) ? $attr_str : scalar( %$attr ),
+        ;
+    }
+
+    my $cdata = '';
+    if (ref($args{cdata}) eq 'ARRAY') {
+
+        if (ref($args{cdata}[0]) eq 'HASH') {
+
+            for (0 .. $#{ $args{cdata} }) {
+                $cdata .= $self->tag( %{ $args{cdata}[$_] } );
+            }
+
+        } else {
+            my $str = '';
+            for (@{ $args{cdata} }) {
+                $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_);
+            }
+            return $str;
+        }
+
+    } elsif (ref($args{cdata}) eq 'HASH') {
+        $cdata = $self->tag( %{ $args{cdata} } );
+
+    } else {
+        $cdata = ( defined( $ENCODES ) and length( $ENCODES ) or ! defined( $ENCODES ) )
+            ? HTML::Entities::encode_entities( $args{cdata}, $ENCODES )
+            : $args{cdata};
+    }
+    
+    return sprintf '<%s%s>%s</%s>',
+        $args{tag},
+        defined( $attr_str ) ? $attr_str : scalar( %$attr ),
+        $cdata,
+        $args{tag},
+    ;
+}
+
+sub _tag_with_indent {
+    my $self = shift;
     my %args = @_;
     my $attr = $args{attr};
 
@@ -63,7 +131,7 @@ sub tag {
             $self->{level}++;
             $LEVEL++;
             for (0 .. $#{ $args{cdata} }) {
-                $cdata .= ( !$_ ? $NEWLINE : '' ) . $self->tag( %{ $args{cdata}[$_] } );
+                $cdata .= ( !$_ ? $NEWLINE : '' ) . $self->_tag_with_indent( %{ $args{cdata}[$_] } );
             }
             $self->{level}--;
             $LEVEL--;
@@ -71,7 +139,7 @@ sub tag {
         } else {
             my $str = $self->{level} ? $NEWLINE : '';
             for (@{ $args{cdata} }) {
-                $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_);
+                $str .= $self->_tag_with_indent( tag => $args{tag}, attr => $attr, cdata => $_);
             }
             return $str;
         }
@@ -79,7 +147,7 @@ sub tag {
     } elsif (ref($args{cdata}) eq 'HASH') {
         $self->{level}++;
         $LEVEL++;
-        $cdata = $self->tag( %{ $args{cdata} } );
+        $cdata = $self->_tag_with_indent( %{ $args{cdata} } );
         $cdata = $NEWLINE . $cdata unless $cdata =~ /^\n/;
         $self->{level}--;
         $LEVEL--;
