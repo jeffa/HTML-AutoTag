@@ -240,9 +240,13 @@ Accepts three arguments:
 
 The name of the tag. String.
 
+  tag => 'table'
+
 =item * C<attr>
 
 The attributes and values to write out for the tag. Hash reference.
+
+  attr => { border => 1 }
 
 =item * C<cdata>
 
