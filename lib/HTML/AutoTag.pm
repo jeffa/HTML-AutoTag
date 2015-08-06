@@ -60,16 +60,14 @@ sub tag {
 
         if (ref($args{cdata}[0]) eq 'HASH') {
 
-            $self->{level}++;
             $LEVEL++;
             for (0 .. $#{ $args{cdata} }) {
                 $cdata .= ( !$_ ? $NEWLINE : '' ) . $self->tag( %{ $args{cdata}[$_] } );
             }
-            $self->{level}--;
             $LEVEL--;
 
         } else {
-            my $str = $self->{level} ? $NEWLINE : '';
+            my $str = $LEVEL ? $NEWLINE : '';
             for (@{ $args{cdata} }) {
                 $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_);
             }
@@ -77,11 +75,9 @@ sub tag {
         }
 
     } elsif (ref($args{cdata}) eq 'HASH') {
-        $self->{level}++;
         $LEVEL++;
         $cdata = $self->tag( %{ $args{cdata} } );
         $cdata = $NEWLINE . $cdata unless $cdata =~ /^\n/;
-        $self->{level}--;
         $LEVEL--;
 
     } else {
