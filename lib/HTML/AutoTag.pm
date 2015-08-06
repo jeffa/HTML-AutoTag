@@ -62,7 +62,7 @@ sub tag {
 
             $LEVEL++;
             for (0 .. $#{ $args{cdata} }) {
-                $cdata .= ( !$_ ? $NEWLINE : '' ) . $self->tag( %{ $args{cdata}[$_] } );
+                $cdata .= ( $_ ? '' : $NEWLINE ) . $self->tag( %{ $args{cdata}[$_] } );
             }
             $LEVEL--;
 
