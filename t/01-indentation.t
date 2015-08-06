@@ -2,7 +2,7 @@
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 use_ok 'HTML::AutoTag';
 
@@ -21,6 +21,13 @@ is $auto->tag( tag => 'foo', cdata => [qw(bar baz qux)] ),
 <foo>qux</foo>
 ",
     "correct indentation for tag with array ref cdata";
+
+is $auto->tag( tag => 'foo', cdata => { tag => 'bar' } ),
+    "<foo>
+    <bar />
+</foo>
+",
+    "correct indentation for tag with empty tag cdata";
 
 is $auto->tag( tag => 'bar', cdata => { tag => 'foo', attr => { col => [1..3] }, cdata => [qw(one two three four)] } ),
     '<bar>
