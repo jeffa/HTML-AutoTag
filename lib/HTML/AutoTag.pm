@@ -54,15 +54,16 @@ sub tag {
         ;
     }
 
-    my $indent_flag;
-    my $cdata = '';
+    my $cdata;
+    my $no_post_indent;
     if (ref($args{cdata}) eq 'ARRAY') {
 
         if (ref($args{cdata}[0]) eq 'HASH') {
 
             $LEVEL++;
+            $cdata = $NEWLINE;
             for (0 .. $#{ $args{cdata} }) {
-                $cdata .= ( $_ ? '' : $NEWLINE ) . $self->tag( %{ $args{cdata}[$_] } );
+                $cdata .= $self->tag( %{ $args{cdata}[$_] } );
             }
             $LEVEL--;
 
@@ -84,7 +85,7 @@ sub tag {
         $cdata = ( defined( $ENCODES ) and length( $ENCODES ) or ! defined( $ENCODES ) )
             ? HTML::Entities::encode_entities( $args{cdata}, $ENCODES )
             : $args{cdata};
-        $indent_flag = 1;
+        $no_post_indent = 1;
     }
     
     return sprintf '%s<%s%s>%s%s</%s>%s',
@@ -92,7 +93,7 @@ sub tag {
         $args{tag},
         defined( $attr_str ) ? $attr_str : scalar( %$attr ),
         $cdata,
-        $indent_flag ? '' : ( $INDENT x $LEVEL ),
+        $no_post_indent ? '' : ( $INDENT x $LEVEL ),
         $args{tag}, $NEWLINE,
     ;
 }
