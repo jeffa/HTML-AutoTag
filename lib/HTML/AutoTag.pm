@@ -87,13 +87,12 @@ sub tag {
         $indent_flag = 1;
     }
     
-    my $indent = !$indent_flag ? ( $INDENT x $LEVEL ) : '';
-
     return sprintf '%s<%s%s>%s%s</%s>%s',
         ( $INDENT x $LEVEL ),
         $args{tag},
         defined( $attr_str ) ? $attr_str : scalar( %$attr ),
-        $cdata, $indent,
+        $cdata,
+        $indent_flag ? '' : ( $INDENT x $LEVEL ),
         $args{tag}, $NEWLINE,
     ;
 }
