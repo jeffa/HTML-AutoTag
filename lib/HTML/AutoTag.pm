@@ -174,12 +174,6 @@ The name of the tag. String.
 
   tag => 'table'
 
-=item * C<attr>
-
-The attributes and values to write out for the tag. Hash reference.
-
-  attr => { border => 1 }
-
 =item * C<cdata>
 
 The value inbetween the tag. Types allowed are:
@@ -188,11 +182,26 @@ The value inbetween the tag. Types allowed are:
 
 =item * scalar - the string to be wrapped in tags
 
+  cdata => 'hello world'
+
 =item * hash ref - another tag with its own cdata and attributes
+
+  cdata => { tag => 'td', attr => {}, cdata => 'value' }
 
 =item * AoH - multiple tags as hash references.
 
+  cdata => [
+      { tag => 'td', attr => {}, cdata => 'value1' }
+      { tag => 'td', attr => {}, cdata => 'value2' }
+  ]
+
 =back
+
+=item * C<attr>
+
+The attributes and values to write out for the tag. Hash reference.
+
+  attr => { border => 1 }
 
 =back
 
