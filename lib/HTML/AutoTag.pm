@@ -46,11 +46,12 @@ sub tag {
     }
 
     unless (defined $args{cdata}) {
-        return sprintf '%s<%s%s />%s',
-            ( $INDENT x $LEVEL ),
-            $args{tag},
-            defined( $attr_str ) ? $attr_str : scalar( %$attr ),
-            $NEWLINE,
+        return ( $INDENT x $LEVEL )
+            . '<'
+            . $args{tag}
+            . ( defined( $attr_str ) ? $attr_str : scalar( %$attr ) )
+            . ' />'
+            . $NEWLINE
         ;
     }
 
@@ -88,13 +89,17 @@ sub tag {
         $no_post_indent = 1;
     }
     
-    return sprintf '%s<%s%s>%s%s</%s>%s',
-        ( $INDENT x $LEVEL ),
-        $args{tag},
-        defined( $attr_str ) ? $attr_str : scalar( %$attr ),
-        $cdata,
-        $no_post_indent ? '' : ( $INDENT x $LEVEL ),
-        $args{tag}, $NEWLINE,
+    return ( $INDENT x $LEVEL )
+        . '<'
+        . $args{tag}
+        . ( defined( $attr_str ) ? $attr_str : scalar( %$attr ) )
+        . '>'
+        . $cdata
+        . ( $no_post_indent ? '' : ( $INDENT x $LEVEL ) )
+        . '</'
+        . $args{tag}
+        . '>'
+        . $NEWLINE
     ;
 }
 
