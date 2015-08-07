@@ -68,7 +68,7 @@ sub tag {
             $LEVEL--;
 
         } else {
-            my $str = $LEVEL ? $NEWLINE : '';
+            my $str = '';
             for (@{ $args{cdata} }) {
                 $str .= $self->tag( tag => $args{tag}, attr => $attr, cdata => $_);
             }
@@ -78,7 +78,7 @@ sub tag {
     } elsif (ref($args{cdata}) eq 'HASH') {
         $LEVEL++;
         $cdata = $self->tag( %{ $args{cdata} } );
-        $cdata = $NEWLINE . $cdata unless $cdata =~ /^\n/;
+        $cdata = $NEWLINE . $cdata;
         $LEVEL--;
 
     } else {
