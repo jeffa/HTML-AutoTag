@@ -21,6 +21,15 @@ WriteMakefile(
         'HTML::Entities'        => 3.69,
         'Tie::Hash::Attribute'  => 0.08,
     },
+    (! eval { ExtUtils::MakeMaker->VERSION(6.46) } ? () :
+        (META_ADD => {
+            resources => {
+                homepage   => 'https://github.com/jeffa/HTML-AutoTag',
+                repository => 'https://github.com/jeffa/HTML-AutoTag.git',
+                bugtracker => 'https://github.com/jeffa/HTML-AutoTag/issues',
+            },
+        })
+    ),
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'HTML-AutoTag-*' },
 );
