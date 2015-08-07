@@ -274,19 +274,6 @@ the rotating attributes feature (now in L<Tie::Hash::Attribute>).
 
 =head1 BUGS AND LIMITATIONS
 
-This module uses (and emulates) L<Tie::Hash::Attribute> which sorts
-HTML attributes by their names. While the order of attributes found
-within a tag normally does not matter, there are a handful of cases where
-it might, such as specifying borders. However, for every case found
-there is a workaround, in the case of borders use one attribute instead
-of many.
-
-  <td style="border: 1px solid black">
-
-  instead of 
-
-  <td style="border-width: 1px; border-style: solid; border-color: black">
-
 If you find a situtation in which this module cannot produce what you
 need please feel free to report a bug. You may report any bugs or
 feature requests to either:

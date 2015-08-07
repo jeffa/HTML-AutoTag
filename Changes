@@ -1,6 +1,7 @@
 Revision history for HTML-AutoTag
 
 0.09    
+    - removed mandatory sort from docs limitations
 
 0.08    
     - minor speed improvements
