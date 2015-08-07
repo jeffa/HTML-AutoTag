@@ -132,7 +132,7 @@ THIS IS AN ALPHA RELEASE, although we are very close to BETA.
 
 =item * C<new()>
 
-Accepts three arguments:
+Accepts the following arguments:
 
 =over 8
 
@@ -152,6 +152,13 @@ Set value to any number of spaces or tabs and newlines will also be appended.
 Indentation level to start at. Can be used in conjunction with C<indent>
 to set indentation even deeper to match any existing HTML this code
 may be injected into.
+
+=item * C<sorted>
+
+Sorts the attribute names of the tag alphabetically. This is mostly
+useful for ensuring consistancy. The attributes (and potential sorting)
+happen within L<Tie::Hash::Attribute>. You most likely will not
+need this feature.
 
 =back
 
@@ -188,13 +195,6 @@ The value inbetween the tag. Types allowed are:
 =back
 
 =back
-
-=item * C<sorted>
-
-Sorts the attribute names of the tag alphabetically. This is mostly
-useful for ensuring consistancy. The attributes (and potential sorting)
-happen within L<Tie::Hash::Attribute>. You most likely will not
-need this feature.
 
 =back
 
