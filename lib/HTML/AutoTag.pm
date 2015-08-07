@@ -245,7 +245,7 @@ The following will render a table with rotating attributes.
               attr => \%tr_attr,
               cdata => {
                   tag => 'td',
-                  attr => { style => { color => [qw(red green)] } },
+                  attr => { style => { color => [qw(green red)] } },
                   cdata => [qw(seven eight nine ten eleven twelve)],
               },
           },
