@@ -45,13 +45,12 @@ sub tag {
         }
     }
 
+    # emtpy tag
     unless (defined $args{cdata}) {
         return ( $INDENT x $LEVEL )
-            . '<'
-            . $args{tag}
+            . "<$args{tag}"
             . ( defined( $attr_str ) ? $attr_str : scalar( %$attr ) )
-            . ' />'
-            . $NEWLINE
+            . " />$NEWLINE"
         ;
     }
 
@@ -78,8 +77,7 @@ sub tag {
 
     } elsif (ref($args{cdata}) eq 'HASH') {
         $LEVEL++;
-        $cdata = $self->tag( %{ $args{cdata} } );
-        $cdata = $NEWLINE . $cdata;
+        $cdata = $NEWLINE . $self->tag( %{ $args{cdata} } );
         $LEVEL--;
 
     } else {
@@ -88,18 +86,12 @@ sub tag {
             : $args{cdata};
         $no_post_indent = 1;
     }
-    
+
     return ( $INDENT x $LEVEL )
-        . '<'
-        . $args{tag}
-        . ( defined( $attr_str ) ? $attr_str : scalar( %$attr ) )
-        . '>'
-        . $cdata
+        . "<$args{tag}" . ( defined( $attr_str ) ? $attr_str : scalar( %$attr ) )
+        . ">$cdata"
         . ( $no_post_indent ? '' : ( $INDENT x $LEVEL ) )
-        . '</'
-        . $args{tag}
-        . '>'
-        . $NEWLINE
+        . "</$args{tag}>$NEWLINE"
     ;
 }
 

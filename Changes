@@ -2,7 +2,6 @@ Revision history for HTML-AutoTag
 
 0.08    
     - minor speed improvements
-    - removed old code
 
 0.07    
     - added sorted param (for sorting attr names via Tie::Hash::Attribute)
