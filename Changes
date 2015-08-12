@@ -1,5 +1,7 @@
 Revision history for HTML-AutoTag
 
+0.10    
+
 0.09    
     - added github meta to Makefile
     - removed mandatory sort from docs limitations
