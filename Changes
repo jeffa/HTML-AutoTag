@@ -1,6 +1,8 @@
 Revision history for HTML-AutoTag
 
-0.10    
+1.00    
+    - version 1.00
+    - require Tie::Hash::Attribute v1.00
 
 0.09    
     - added github meta to Makefile

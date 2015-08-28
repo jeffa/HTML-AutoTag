@@ -19,7 +19,7 @@ WriteMakefile(
     },
     PREREQ_PM => {
         'HTML::Entities'        => 3.69,
-        'Tie::Hash::Attribute'  => 0.08,
+        'Tie::Hash::Attribute'  => 1.00,
     },
     (! eval { ExtUtils::MakeMaker->VERSION(6.46) } ? () :
         (META_ADD => {
