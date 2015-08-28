@@ -124,8 +124,6 @@ HTML::AutoTag - Just another HTML tag generator.
 Generate nested HTML (HTML4, XHTML and HTML5) tags with custom indentation,
 custom encoding and automatic attribute value rotation.
 
-THIS IS AN ALPHA RELEASE, although we are very close to BETA.
-
 =head1 METHODS
 
 =over 4
