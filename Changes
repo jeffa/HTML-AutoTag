@@ -1,5 +1,7 @@
 Revision history for HTML-AutoTag
 
+1.02    
+
 1.01    
     - removed sprintf (should be a smidge faster)
     - require Tie::Hash::Attribute v1.01
