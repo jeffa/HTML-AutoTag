@@ -38,10 +38,7 @@ sub tag {
         $attr_str = '';
         my @keys = $SORTED ? sort keys %$attr : keys %$attr;
         for my $key (@keys) {
-            $attr_str .= sprintf ' %s="%s"',
-                Tie::Hash::Attribute::_key( $key ),
-                Tie::Hash::Attribute::_val( $attr->{$key} )
-            ;
+            $attr_str .= ' ' . Tie::Hash::Attribute::_key( $key ) . '="' . Tie::Hash::Attribute::_val( $attr->{$key} ) . '"';
         }
     }
 
