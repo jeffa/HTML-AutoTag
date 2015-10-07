@@ -1,6 +1,6 @@
 HTML::AutoTag
 =============
-Just another HTML tag generator.
+Just another HTML tag generator. [![CPAN version](https://badge.fury.io/pl/HTML-AutoTag.svg)](https://badge.fury.io/pl/HTML-AutoTag)
 
 Synopsis
 --------
