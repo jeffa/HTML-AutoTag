@@ -266,20 +266,17 @@ L<https://github.com/jeffa/HTML-AutoTag/tree/master/t>
 
 =head1 INSPIRATION
 
-Lincoln Stein's L<CGI> has long been able to easily produce completely
-arbitrary HTML text by turning any non-defined method call into a wrapper.
-
-Gisle Aas's L<HTML::Tree> distribution has a wonderful method
-(HTML::Element::new_from_lol) which this module draws most of its
-interface inspiration from. I would like to continue tweaking this
-code - while the named parameters make for a cleaner implementation
-they do get in the way of the client.
-
-Finally, this module was the indirect result of efforts to refactor
+This module was the unintentional result of efforts to refactor
 L<DBIx::XHTML_Table> into L<DBIx::HTML> and L<Spreadsheet::HTML>. The need
 to reimplement what CGI and HTML::Element (and a slew of others out there
 on the CPAN) do was generated from slow performance time and maintaining
 the rotating attributes feature (now in L<Tie::Hash::Attribute>).
+
+Two existing modules inspired this one: Lincoln Stein's L<CGI> has
+long been able to easily produce completely arbitrary HTML text by
+turning any non-defined method call into a wrapper. Gisle Aas's
+L<HTML::Tree> distribution has a wonderful method (HTML::Element::new_from_lol)
+which this module draws most of its interface inspiration from.
 
 =head1 BUGS AND LIMITATIONS
 
