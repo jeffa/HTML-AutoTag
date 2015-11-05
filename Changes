@@ -1,6 +1,12 @@
 Revision history for HTML-AutoTag
 
 1.02    
+    - added encode param to make interface more clear
+      encode is a boolean that will augment the existing
+      encodes param. The behavior of the encodes param remains
+      the same with the exception that setting to empty string
+      or a false value will no longer produce encoding UNLESS
+      the encode param is additional set to a true value.
 
 1.01    
     - removed sprintf (should be a smidge faster)

@@ -7,14 +7,15 @@ our $VERSION = '1.02';
 use HTML::Entities;
 use Tie::Hash::Attribute;
 
-our( $INDENT, $NEWLINE, $LEVEL, $ENCODES, $SORTED );
+our( $INDENT, $NEWLINE, $LEVEL, $ENCODE, $ENCODES, $SORTED );
 
 sub new {
     my $self = shift;
     my $args = {@_};
-    $ENCODES = exists  ( $args->{encodes} ) ? $args->{encodes} : '';
-    $INDENT  = defined ( $args->{indent}  ) ? $args->{indent} : '';
-    $NEWLINE = defined ( $args->{indent}  ) ? "\n" : '';
+    $ENCODE  = defined $args->{encode}  ? $args->{encode}  : exists $args->{encodes};
+    $ENCODES = defined $args->{encodes} ? $args->{encodes} : '';
+    $INDENT  = defined $args->{indent}  ? $args->{indent}  : '';
+    $NEWLINE = defined $args->{indent}  ? "\n" : '';
     $LEVEL   = $args->{level} || 0;
     $SORTED  = $args->{sorted};
     bless {}, $self;
@@ -78,9 +79,8 @@ sub tag {
         $LEVEL--;
 
     } else {
-        $cdata = ( defined( $ENCODES ) and length( $ENCODES ) or ! defined( $ENCODES ) )
-            ? HTML::Entities::encode_entities( $args{cdata}, $ENCODES )
-            : $args{cdata};
+        # encoding: undef yields default, empty string is no encoding
+        $cdata = $ENCODE ? HTML::Entities::encode_entities( $args{cdata}, $ENCODES ) : $args{cdata};
         $no_post_indent = 1;
     }
 
@@ -131,11 +131,16 @@ Accepts the following arguments:
 
 =over 8
 
+=item * C<encode>
+
+Encode HTML entities. Boolean. Defaults to false, which produces no encoding.
+If set to true without further specifying a value for C<encodes> (see below),
+will encode all control chars, high bit chars and '<', '&', '>', ''' and '"'.
+
 =item * C<encodes>
 
-Encode HTML entities. Defaults to empty string which produces no encoding.
-Set value to those characters you wish to have encoded. Set value to undef
-to encode the unsafe characters <, >, and &. = not encoded by default.
+Encode HTML entities. String. Set value to those characters you wish to
+have encoded.
 
 =item * C<indent>
 
