@@ -1,5 +1,7 @@
 Revision history for HTML-AutoTag
 
+1.03    
+
 1.02    
     - added encode param to make interface more clear
       encode is a boolean that will augment the existing
