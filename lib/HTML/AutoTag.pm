@@ -136,15 +136,22 @@ Encode HTML entities. Boolean. Defaults to false, which produces no encoding.
 If set to true without further specifying a value for C<encodes> (see below),
 will encode all control chars, high bit chars and '<', '&', '>', ''' and '"'.
 
+  encode => 1
+
 =item * C<encodes>
 
 Encode HTML entities. String. Set value to those characters you wish to
 have encoded.
 
+  encodes => '<=>' 
+
 =item * C<indent>
 
 Pretty print results. Defaults to undef which produces no indentation.
 Set value to any number of spaces or tabs and newlines will also be appended.
+
+  indent => '    '
+  indent => "\t"
 
 =item * C<level>
 
@@ -152,12 +159,16 @@ Indentation level to start at. Can be used in conjunction with C<indent>
 to set indentation even deeper to match any existing HTML this code
 may be injected into.
 
+  level => 2
+
 =item * C<sorted>
 
 Sorts the attribute names of the tag alphabetically. This is mostly
 useful for ensuring consistancy. The attributes (and potential sorting)
 happen within L<Tie::Hash::Attribute>. You most likely will not
 need this feature.
+
+  sorted => 1
 
 =back
 
