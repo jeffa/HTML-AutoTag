@@ -7,10 +7,10 @@ Synopsis
 ```perl
 use HTML::AutoTag;
 
+my $auto = HTML::AutoTag->new( indent => '    ' );
+
 my %attr = ( style => { color => [qw(red green)] } );
 my @data = qw( one two three four five six seven eight );
-
-my $auto = HTML::AutoTag->new( indent => '    ' );
 
 print $auto->tag(
     tag   => 'ol', 

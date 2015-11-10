@@ -79,7 +79,6 @@ sub tag {
         $LEVEL--;
 
     } else {
-        # encoding: undef yields default, empty string is no encoding
         $cdata = $ENCODE ? HTML::Entities::encode_entities( $args{cdata}, $ENCODES ) : $args{cdata};
         $no_post_indent = 1;
     }
@@ -103,10 +102,10 @@ HTML::AutoTag - Just another HTML tag generator.
 
   use HTML::AutoTag;
 
+  my $auto = HTML::AutoTag->new( indent => '    ' );
+
   my %attr = ( style => { color => [qw(red green)] } );
   my @data = qw( one two three four five six seven eight );
-
-  my $auto = HTML::AutoTag->new( indent => '    ' );
 
   print $auto->tag(
       tag   => 'ol', 
@@ -221,10 +220,11 @@ Used to create rotating attributes.
 
 =back
 
-=head1 EXAMPLE
+=head1 EXAMPLES
 
-The following will render a table with rotating attributes.
+The following will render a table with rotating attributes:
 
+  my $auto = HTML::AutoTag->new( indent => "    " );
   my %tr_attr = ( class => [qw(odd even)] );
   
   print $auto->tag(
@@ -259,6 +259,43 @@ The following will render a table with rotating attributes.
               },
           },
       ]
+  );
+
+The following will emulate CGI.pm's C<scrolling_list()> output:
+
+  my $auto = HTML::AutoTag->new( indent => "    " );
+
+  print $auto->tag(
+      tag   => 'select',
+      attr  => { name => 'widgets', size => 3, multiple => 'multiple' },
+      cdata => [
+          { tag => 'option', cdata => 'foo', attr => { value => 1, } },
+          { tag => 'option', cdata => 'bar', attr => { value => 2, selected => 'selected' } },
+          { tag => 'option', cdata => 'baz', attr => { value => 3, selected => 'selected' } },
+      ]
+  );
+
+Or in a more programatic way:
+
+  my $auto = HTML::AutoTag->new( indent => "    " );
+
+  my @selected = (2, 3);
+  my @options  = (
+      [ 1, 'foo' ],
+      [ 2, 'bar' ],
+      [ 3, 'baz' ],
+  );
+
+  my $selected = [];
+  for my $o (@options) {
+     push @$selected, (grep $_ eq $o->[0], @selected) ? 'selected' : undef;
+  }
+  my %attr = ( value => [ map $_->[0], @options ], selected => $selected );
+
+  print $auto->tag(
+      tag   => 'select',
+      attr  => { name => 'widgets', size => scalar @options, multiple => 'multiple' },
+      cdata => [ map { tag => 'option', attr => \%attr, cdata => $_->[1] }, @options ],
   );
 
 See tests in C<t/> from the distribution or github for more examples:
