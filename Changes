@@ -1,5 +1,7 @@
 Revision history for HTML-AutoTag
 
+1.04    
+
 1.03    
     - require Tie::Hash::Attribute v1.02
     - added example for <select> list in docs
