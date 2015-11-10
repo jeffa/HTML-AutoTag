@@ -1,6 +1,7 @@
 Revision history for HTML-AutoTag
 
 1.03    
+    - require Tie::Hash::Attribute v1.02
 
 1.02    
     - added encode param to make interface more clear
