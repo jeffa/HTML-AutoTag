@@ -1,6 +1,7 @@
 Revision history for HTML-AutoTag
 
 1.04    
+    - return empty string if tag not defined
 
 1.03    
     - require Tie::Hash::Attribute v1.02

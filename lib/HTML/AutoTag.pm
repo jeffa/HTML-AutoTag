@@ -26,6 +26,8 @@ sub tag {
     my %args = @_;
     my $attr = $args{attr};
 
+    return '' unless defined $args{tag};
+
     my $attr_str;
     if (grep ref($_), values %$attr) {
         # complex attrs use a tied hash
