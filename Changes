@@ -1,5 +1,7 @@
 Revision history for HTML-AutoTag
 
+1.05    
+
 1.04    
     - return empty string if tag not defined
 
