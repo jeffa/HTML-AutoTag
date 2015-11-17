@@ -104,7 +104,7 @@ HTML::AutoTag - Just another HTML tag generator.
 
   use HTML::AutoTag;
 
-  my $auto = HTML::AutoTag->new( indent => '    ' );
+  my $auto = HTML::AutoTag->new( indent => '    ', encode => 1 );
 
   my %attr = ( style => { color => [qw(red green)] } );
   my @data = qw( one two three four five six seven eight );
