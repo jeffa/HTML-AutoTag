@@ -26,7 +26,6 @@ WriteMakefile(
             resources => {
                 homepage   => 'https://github.com/jeffa/HTML-AutoTag',
                 repository => 'https://github.com/jeffa/HTML-AutoTag.git',
-                bugtracker => 'https://github.com/jeffa/HTML-AutoTag/issues',
             },
         })
     ),
