@@ -1,5 +1,7 @@
 Revision history for HTML-AutoTag
 
+1.06    
+
 1.05    
     - require Tie::Hash::Attribute v1.03
     - update copyright date
