@@ -1,6 +1,8 @@
 Revision history for HTML-AutoTag
 
-1.07    
+1.08    
+	- removed Travis link from readme
+    - update copyright date
 
 1.06    
     - require Tie::Hash::Attribute v1.04
